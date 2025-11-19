@@ -5,24 +5,23 @@
 #include <Adafruit_Sensor.h>
 #include <Adafruit_TSL2561_U.h>
 
-// WiFi credentials
 #define WIFI_SSID     "ADN-IOT"
 #define WIFI_PASSWORD "WBNuyawB2a"
 
-// Smart socket IP
+
 const char* SOCKET_IP = "192.168.0.51";  
 
-// Lux thresholds
-const float LUX_ON  = 100.0;  // turn socket ON if lux < 100
-const float LUX_OFF = 300.0;  // turn socket OFF if lux > 300
 
-// TSL2561 sensor setup
+const float LUX_ON  = 100.0;  
+const float LUX_OFF = 300.0;  
+
+
 Adafruit_TSL2561_Unified tsl = Adafruit_TSL2561_Unified(TSL2561_ADDR_FLOAT, 12345);
 
-// Current socket state
+
 bool socketOn = false;
 
-// Build HTTP URL to switch socket ON or OFF
+
 String makeSwitchUrl(const char* ip, bool on) {
   String url = "http://";
   url += ip;
@@ -36,7 +35,7 @@ void setup() {
   delay(50);
   Serial.println("Booting...");
 
-  // Connect to WiFi
+  
   WiFi.mode(WIFI_STA);
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
   Serial.print("Connecting to WiFi");
@@ -50,13 +49,13 @@ void setup() {
   Serial.print("Connected! IP: ");
   Serial.println(WiFi.localIP());
 
-  // Initialize TSL2561
+  
   if (!tsl.begin()) {
     Serial.println("TSL2561 not found!");
     while (1);
   }
-  tsl.enableAutoRange(true);                     // auto gain
-  tsl.setIntegrationTime(TSL2561_INTEGRATIONTIME_13MS);  // fast measurement
+  tsl.enableAutoRange(true);                    
+  tsl.setIntegrationTime(TSL2561_INTEGRATIONTIME_13MS);  
   Serial.println("TSL2561 initialized.");
 }
 
@@ -68,16 +67,16 @@ void loop() {
     Serial.print("Lux: ");
     Serial.println(event.light);
 
-    bool newState = socketOn;  // default: no change
+    bool newState = socketOn;  
 
-    // Hysteresis logic
+    
     if (socketOn && event.light > LUX_OFF) {
-      newState = false; // turn OFF
+      newState = false; 
     } else if (!socketOn && event.light < LUX_ON) {
-      newState = true;  // turn ON
+      newState = true;  
     }
 
-    // Only send HTTP request if state changed
+    
     if (newState != socketOn) {
       socketOn = newState;
       String url = makeSwitchUrl(SOCKET_IP, socketOn);
@@ -104,5 +103,5 @@ void loop() {
     Serial.println("Sensor error");
   }
 
-  delay(1000); // read sensor every 1 second
+  delay(1000); 
 }
