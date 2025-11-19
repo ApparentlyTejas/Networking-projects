@@ -3,11 +3,11 @@
 #include <Adafruit_SSD1306.h>
 #include <Adafruit_GFX.h>
 
-// WiFi credentials
+
 #define WIFI_SSID     "ADN-IOT"
 #define WIFI_PASSWORD "WBNuyawB2a"
 
-// OLED
+
 #define OLED_RESET 0
 Adafruit_SSD1306 display(OLED_RESET);
 
@@ -15,7 +15,6 @@ void setup() {
   Serial.begin(115200);
   delay(100);
 
-  // OLED SETUP
   display.begin(SSD1306_SWITCHCAPVCC, 0x3C);
   display.clearDisplay();
   display.setTextSize(1);
@@ -24,7 +23,6 @@ void setup() {
   display.println("Connecting...");
   display.display();
 
-  // WIFI CONNECT
   WiFi.mode(WIFI_STA);
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
 
@@ -37,7 +35,7 @@ void setup() {
 
   Serial.println("\nConnected!");
 
-  // SHOW IP
+  
   String ip = WiFi.localIP().toString();
 
   Serial.print("IP address: ");
