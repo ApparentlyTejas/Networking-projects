@@ -1,141 +1,131 @@
-Networking Projects
-Collection of small ESP32 networking exercises built with PlatformIO, focusing on Wi‑Fi, HTTP, and MQTT.
 
-Projects
-1. display_ip.cpp
+# Networking Projects
 
-Reads the ESP32’s assigned IP address after joining a Wi‑Fi network and prints it over the serial port.
-Useful as a first sanity check that Wi‑Fi credentials, board, and PlatformIO setup are correct.
+This repository contains a collection of small ESP32 networking exercises, developed with PlatformIO. The projects focus on exploring Wi‑Fi connectivity, sending HTTP requests, and communicating via MQTT.
 
-2. wifi_blink.cpp
+## Projects
 
-Connects the ESP32 to Wi‑Fi and uses the onboard LED to indicate connection status (e.g. blinking while connecting, steady when connected).
-Demonstrates basic Wi‑Fi state handling and non‑blocking LED signaling.
+1. **display_ip.cpp**  
+   Retrieves the ESP32’s assigned IP address after connecting to Wi‑Fi and outputs it to the serial port.  
+   This is a handy first step to verify Wi‑Fi credentials and board setup.
 
-3. wifi_toggle.cpp
+2. **wifi_blink.cpp**  
+   Connects the ESP32 to Wi‑Fi and uses the onboard LED to visually indicate connection status (e.g., blinking while connecting and steady on success).  
+   Demonstrates basic asynchronous Wi‑Fi state monitoring and LED control.
 
-Connects to Wi‑Fi and toggles an attached light/socket by talking to an existing HTTP or MQTT API (depending on your implementation).
-Focuses on triggering remote actions over the network.
+3. **wifi_toggle.cpp**  
+   Connects to Wi‑Fi and toggles a connected light/socket through HTTP or MQTT, depending on your setup.  
+   This example shows how to remotely control devices over a network.
 
-4. http_lux.cpp
+4. **http_lux.cpp**  
+   Reads data from a light sensor (lux values) and sends it via HTTP to a server or REST endpoint.  
+   Illustrates building and sending HTTP requests and integrating sensor input.
 
-Reads a light sensor (lux value) and sends the measurements via HTTP to a server or REST endpoint.
-Shows how to build and send HTTP requests from the ESP32 and how to integrate simple sensor inputs.
+5. **mqtt_temp.cpp**  
+   Reads temperature (and optionally humidity) sensor data and publishes it to an MQTT broker under a configurable topic.  
+   Teaches MQTT publishing, topic structure, QoS settings, and payload formatting.
 
-5. mqtt_temp.cpp
+6. **mqtt_button.cpp**  
+   Connects to Wi‑Fi and an MQTT broker, monitors a hardware pushbutton, and sends a TOGGLE (or ON/OFF) command to smart plugs such as Sonoff or Tasmota devices using topics like `cmnd/sonoff_05/POWER`.  
+   Implements a classic IoT pattern: local sensor/input → MQTT message → remote actuator.
 
-Reads a temperature (or temperature + humidity) sensor and publishes the values to an MQTT broker under a configured topic.
-Introduces MQTT publish semantics, topics, QoS levels, and payload formatting.
+## Requirements
 
-6. mqtt_button.cpp
+- ESP32 development board  
+- USB cable and serial monitor (PlatformIO integrated)  
+- PlatformIO IDE (VS Code extension or standalone)  
+- A 2.4 GHz Wi‑Fi network  
+- For MQTT projects:  
+  - MQTT broker (e.g., mosquitto or the lab broker at 192.168.0.1:1883)  
+  - Optional tools like `mosquitto_sub` and `mosquitto_pub` for debugging MQTT topics
 
-Connects to Wi‑Fi and an MQTT broker, monitors a hardware pushbutton, and sends a TOGGLE (or ON/OFF) command to a smart plug / Sonoff / Tasmota‑style device topic such as cmnd/sonoff_05/POWER.
-Implements the classic IoT pattern of local input → MQTT message → remote actuator.
+## Libraries Used
 
-Requirements
-ESP32 development board
+The projects use a subset of these libraries depending on the sketch:
 
-USB cable and serial monitor
+- **Core**  
+  - `WiFi.h` (ESP32 Wi‑Fi support)
 
-PlatformIO (VS Code extension or standalone)
+- **Asynchronous MQTT**  
+  - `AsyncTCP.h`  
+  - `AsyncMqttClient.h` (marvinroger/AsyncMqttClient)
 
-A 2.4 GHz Wi‑Fi network
+- **Button handling**  
+  - `avdweb_Switch.h` (the Dalen Switch library, often version 1.2.1 for stable debouncing)
 
-For MQTT examples:
+- **Sensor extras**  
+  - Depending on the sensor (light, temperature etc.), add the relevant sensor libraries via PlatformIO's Library Manager.
 
-MQTT broker (e.g. mosquitto or a lab broker such as 192.168.0.1:1883)​
+_Always check the includes at the top of each `.cpp` to see which libraries are required._
 
-Optional: tools like mosquitto_sub / mosquitto_pub to debug topics​
+## Getting Started with PlatformIO
 
-Libraries
-Most sketches use a subset of these libraries:
+### 1. Install VS Code  
+Download and install [Visual Studio Code](https://code.visualstudio.com/).
 
-Core
+### 2. Install PlatformIO IDE Extension  
+Open VS Code → Extensions → Search for “PlatformIO IDE” → Install.
 
-WiFi.h (ESP32 Wi‑Fi)
-
-Asynchronous MQTT
-
-AsyncTCP.h
-
-AsyncMqttClient.h (marvinroger/AsyncMqttClient)​
-
-Button handling
-
-avdweb_Switch.h (Dalen switch library, often version 1.2.1 for lab exercises)
-
-Sensors / extras
-
-Depending on your sensors (e.g. lux/temperature), add the relevant sensor library via PlatformIO Library Manager.
-
-Check each .cpp file’s #include list to see which of these are actually used.
-
-Getting Started (PlatformIO)
-Install VS Code
-Download and install Visual Studio Code from the official website.
-
-Install PlatformIO
-
-Open VS Code.
-
-Go to Extensions → search for “PlatformIO IDE” → install.​
-
-Clone the repository
-
-bash
+### 3. Clone this repository  
 git clone https://github.com/ApparentlyTejas/Networking-projects.git
 cd Networking-projects
-Open in PlatformIO
 
-In VS Code: File → Open Folder… and select the Networking-projects folder.
+text
 
-PlatformIO will detect platformio.ini.
+### 4. Open the folder in VS Code  
+`File → Open Folder…` → select `Networking-projects`.
 
-Select the example to build
+### 5. Select the sketch to build  
+- Copy your chosen `.cpp` file to `src/main.cpp` or update your `platformio.ini` accordingly.
 
-Ensure the src folder contains the sketch you want to run (e.g. mqtt_button.cpp as src/main.cpp), or adjust your platformio.ini / file names accordingly.
+### 6. Configure credentials and settings  
+Edit the selected `.cpp` files to update these defines:
+#define WIFI_SSID "your_wifi_ssid"
+#define WIFI_PASS "your_wifi_password"
+#define MQTT_HOST IPAddress(192,168,0,1) // your broker IP
 
-Configure Wi‑Fi and broker
+text
 
-In the chosen .cpp file, edit:
+Set MQTT topics as needed (e.g., `cmnd/sonoff_05/POWER`).
 
-WIFI_SSID, WIFI_PASS
+### 7. Build and upload  
+Use PlatformIO toolbar:  
+- Click Build (checkmark) to compile  
+- Click Upload (right arrow) to flash to your ESP32  
+- Open Serial Monitor to view debug output
 
-MQTT broker IP/port and topics (e.g. cmnd/sonoff_05/POWER).
+## Running MQTT Example Debugging
 
-Build and upload
+Use these handy terminal commands with your broker:
 
-In the PlatformIO toolbar:
-
-Click Build (checkmark) to compile.
-
-Click Upload (right arrow) to flash the ESP32.
-
-Open Serial Monitor to see logs and debug prints.
-
-Running the MQTT examples
-Use mosquitto_sub to watch messages while testing:
-
-bash
+Subscribe to all topics and watch output
 mosquitto_sub -h 192.168.0.1 -t '#' -v
-For mqtt_temp.cpp, subscribe to the temperature topic you configured.
 
-For mqtt_button.cpp, subscribe to stat/<device-id>/# and press the button to see POWER toggling.
+Subscribe to your device’s status updates (replace sonoff_05 with your device ID)
+mosquitto_sub -h 192.168.0.1 -t 'stat/sonoff_05/#' -v
 
-Repository Structure
+Manually toggle device power
+mosquitto_pub -h 192.168.0.1 -t "cmnd/sonoff_05/POWER" -m "TOGGLE"
+
+text
+
+## Repository Layout
+
 src/
-
-display_ip.cpp
-
-wifi_blink.cpp
-
-wifi_toggle.cpp
-
-http_lux.cpp
-
-mqtt_temp.cpp
-
-mqtt_button.cpp
+├── display_ip.cpp
+├── wifi_blink.cpp
+├── wifi_toggle.cpp
+├── http_lux.cpp
+├── mqtt_temp.cpp
+├── mqtt_button.cpp
 
 platformio.ini
-PlatformIO environment configuration (board type, framework, library deps, etc.).
+README.md
+
+text
+
+---  
+If you want to expand the repo or add new sketches, follow same style and PlatformIO conventions.
+
+Happy coding!  
+— Tejas  
