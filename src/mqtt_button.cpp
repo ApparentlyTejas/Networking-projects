@@ -34,6 +34,6 @@ void loop() {
 
   if (button.pushed()) {
     serial.printlm("button pressed");
-    mqttClient.publish("cmnd/adn37/POWER", 1, false, "TOGGLE");
+    mqttClient.publish("cmnd/sonoff05/POWER", 1, false, "TOGGLE");
   }
 }
