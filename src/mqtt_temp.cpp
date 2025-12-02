@@ -6,7 +6,7 @@
 #define WIFI_SSID "ADN-IOT"
 #define WIFI_PASSWORD "WBNuyawB2a"
 #define MQTT_BROKER "192.168.0.1"
-#define MQTT_TOPIC "adn/groupXY/temp"
+#define MQTT_TOPIC "adn/group33/temp"
 #define HOSTNAME "adn-group33"
 
 WiFiClient wifiClient;
