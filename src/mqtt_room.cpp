@@ -1,7 +1,7 @@
 #include <WiFi.h>
 #include <PubSubClient.h>
 #include <Adafruit_BME280.h>
-
+#define LED_PIN 2
 #define WIFI_SSID     "ADN-IOT"
 #define WIFI_PASSWORD "WBNuyawB2a"
 #define MQTT_BROKER   "192.168.0.1"
@@ -18,7 +18,7 @@ void connectWiFi() {
   WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
   while (WiFi.status() != WL_CONNECTED) delay(500);
 }
-
+digitalWrite(LED_PIN , HIGH);
 void connectMQTT() {
   mqtt.setServer(MQTT_BROKER, 1883);
   while (!mqtt.connected()) mqtt.connect(HOSTNAME, HOSTNAME, NULL);
