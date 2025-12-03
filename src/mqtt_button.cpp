@@ -3,6 +3,7 @@
 #include <AsyncMqttClient.h>
 #include <avdweb_Switch.h>
 
+#define LED_PIN 2
 #define WIFI_SSID "ADN-IOT"
 #define WIFI_PASS "WBNuyawB2a"
 

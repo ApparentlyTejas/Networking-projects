@@ -2,7 +2,7 @@
 #include <PubSubClient.h>
 #include <Adafruit_BME280.h>
 #include <string.h>
-
+#define LED_PIN 2
 #define WIFI_SSID "ADN-IOT"
 #define WIFI_PASSWORD "WBNuyawB2a"
 #define MQTT_BROKER "192.168.0.1"
