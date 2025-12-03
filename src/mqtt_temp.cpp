@@ -32,8 +32,11 @@ void loop() {
   if (millis() - lastPublish > 5000) {
     lastPublish = millis();
     float temp = bme.readTemperature();
+    Serial.print("Temp: ");
+    Serial.println(temp);
     char payload[4];
     memcpy(payload, &temp, 4);
-    mqttClient.publish(MQTT_TOPIC, (uint8_t*)payload, 4);
+    mqtt.publish(MQTT_TOPIC, (uint8_t*)payload, 4);
+
   }
 }
