@@ -29,6 +29,18 @@ This repository contains a collection of small ESP32 networking exercises, devel
    Connects to Wi‑Fi and an MQTT broker, monitors a hardware pushbutton, and sends a TOGGLE (or ON/OFF) command to smart plugs such as Sonoff or Tasmota devices using topics like `cmnd/sonoff_05/POWER`.  
    Implements a classic IoT pattern: local sensor/input → MQTT message → remote actuator.
 
+7. **lorawan.cpp (LoRaWAN GPS)**
+   Connects an ESP32 + LoRaWAN shield to a LoRaWAN network, encodes GPS coordinates into an 11‑byte payload, and sends them in uplinks.
+   Used together with a payload decoder and TTN Mapper to map gateway coverage and range.
+
+8. **airtime_calc.md (LoRa airtime & duty cycle)**
+   Contains the hand‑calculated LoRa airtime results (SF12, 125 kHz, 10‑byte uplink), duty‑cycle based message limits per day, and effective payload data rate.
+   Summarizes theoretical trade‑offs between SF, bandwidth, coding rate, airtime, and fair‑use on LoRaWAN.
+
+9. **printInfo.py (JSON & Python)**
+   Simple Python 3 script that sends an HTTP request to the PyPI JSON API (https://pypi.org/pypi/sampleproject/json), parses the JSON response, and prints all entries with the       label filename using loops.
+   Demonstrates basic use of urllib / json in Python and navigating nested JSON structures.
+
 ## Requirements
 
 - ESP32 development board  
@@ -118,6 +130,9 @@ src/
 ├── http_lux.cpp
 ├── mqtt_temp.cpp
 ├── mqtt_button.cpp
+├── lorawan.cpp
+├── airtime_calc.md
+├── printInfo.py
 
 platformio.ini
 README.md
