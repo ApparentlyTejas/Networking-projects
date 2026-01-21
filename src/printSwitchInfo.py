@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 import requests
 import pprint
 import sys
@@ -29,7 +28,7 @@ def main():
     group_switches = {}
     
     for device in devices:
-        # FIXED: annotations.managementAddress
+        
         mgmt_ip = device.get("annotations", {}).get("managementAddress", "")
         if mgmt_ip in MGM_IPS:
             print(f"Found {mgmt_ip} → ID: {device['id']}")
@@ -51,7 +50,7 @@ def main():
             print(f"   Ports: {len(ports)}")
             pprint.pprint(ports, width=60, indent=4)
         else:
-            print(f"   Port query failed: {port_resp.status_code}")
+            print(f" Port query failed: {port_resp.status_code}")
     
     print("\n DONE")
 
