@@ -3,16 +3,12 @@ import requests
 import pprint
 import sys
 
-
 ONOS_URL = "http://localhost:8181/onos/v1"
 USERNAME = "onos"
 PASSWORD = "rocks"
 
-
 GROUP = 3
-MGM_IPS = [f"192.168.100.{GROUP}0", 
-           f"192.168.100.{GROUP}1", 
-           f"192.168.100.{GROUP}2"]  
+MGM_IPS = ["192.168.100.30", "192.168.100.31", "192.168.100.32"]
 
 headers = {"Accept": "application/json"}
 
@@ -33,19 +29,19 @@ def main():
     group_switches = {}
     
     for device in devices:
-        mgmt_ip = device.get("managementAddress", "")
+        # FIXED: annotations.managementAddress
+        mgmt_ip = device.get("annotations", {}).get("managementAddress", "")
         if mgmt_ip in MGM_IPS:
-            print(f"  ✓ Found {mgmt_ip} → ID: {device['id']}")
+            print(f"Found {mgmt_ip} → ID: {device['id']}")
             group_switches[mgmt_ip] = device["id"]
     
     if not group_switches:
         print("No group switches found! Check group number.")
         sys.exit(1)
     
-
     print("\n2. Getting port details...")
     for ip, device_id in group_switches.items():
-        print(f"\n🔌 {ip} ({device_id})")
+        print(f"\n {ip} ({device_id})")
         port_resp = requests.get(f"{ONOS_URL}/devices/{device_id}/ports",
                                 auth=(USERNAME, PASSWORD),
                                 headers=headers)
@@ -57,7 +53,7 @@ def main():
         else:
             print(f"   Port query failed: {port_resp.status_code}")
     
-    print("\n Ready for StudOn upload!")
+    print("\n DONE")
 
 if __name__ == "__main__":
     main()
