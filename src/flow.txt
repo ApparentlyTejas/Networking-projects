@@ -1,0 +1,17 @@
+{
+  "appId": "de.fau.cs7.adngroup33",
+  "priority": 100,
+  "timeout": 300,
+  "isPermanent": false,
+  "deviceId": "of:000070b3056cd9b5",
+  "selector": {
+    "criteria": [
+      {"type": "ETH_TYPE", "ethType": "0x0800"},
+      {"type": "IPV4_SRC", "ip": "192.168.99.31/32"},
+      {"type": "IPV4_DST", "ip": "192.168.99.32/32"}
+    ]
+  },
+  "treatment": {
+    "instructions": [{"type": "OUTPUT", "port": 2}]
+  }
+}
